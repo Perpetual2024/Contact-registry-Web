@@ -4,11 +4,15 @@
  */
 package com.zuriontech.contact.registry.dao;
 
+import com.zuriontech.contact.registry.model.Contacts;
 import com.zuriontech.contact.registry.util.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -40,5 +44,33 @@ public class ContactDao {
          System.err.println("Failed to insert contacts info:" + e.getMessage());}
     }
     
+    public List<Contacts> getAllContacts() throws SQLException {
+    List<Contacts> contactList = new ArrayList<>();
+    String sql = "SELECT * FROM contacts";
     
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            Contacts contact = new Contacts();
+            contact.setId(rs.getInt("id"));
+            contact.setFullName(rs.getString("full_name"));
+            contact.setPhoneNumber(rs.getString("phone_number"));
+            contact.setEmailAddress(rs.getString("email_address"));
+            contact.setIdNumber(rs.getString("id_number"));
+            contact.setDateOfBirth(rs.getDate("date_of_birth"));
+            contact.setGender(rs.getString("gender"));
+            contact.setCounty(rs.getString("county"));
+            contact.setOrganizationName(rs.getString("organization_name"));
+
+            contactList.add(contact);
+        }
+    }
+
+    return contactList;
 }
+}
+
+
+
