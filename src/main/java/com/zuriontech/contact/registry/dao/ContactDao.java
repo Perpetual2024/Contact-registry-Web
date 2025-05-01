@@ -70,7 +70,31 @@ public class ContactDao {
 
     return contactList;
 }
-}
+     public void updateContact(Contacts contact) throws SQLException {
+        String sql = "UPDATE contacts SET full_name=?, phone_number=?, email_address=?, id_number=?, date_of_birth=?, gender=?, county=?, organization_name=? WHERE id=?";
+        
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            stmt.setString(1, contact.getFullName());
+            stmt.setString(2, contact.getPhoneNumber());
+            stmt.setString(3, contact.getEmailAddress());
+            stmt.setString(4, contact.getIdNumber());
+            stmt.setDate(5, new java.sql.Date(contact.getDateOfBirth().getTime()));
+            stmt.setString(6, contact.getGender());
+            stmt.setString(7, contact.getCounty());
+            stmt.setString(8, contact.getOrganizationName());
+            stmt.setInt(9, contact.getId());
+
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Contact updated successfully.");
+            } else {
+                System.out.println("No contact found with the given ID.");
+            }
+        }
+    }
+}
+    
 
 
