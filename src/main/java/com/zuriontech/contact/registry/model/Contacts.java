@@ -24,8 +24,25 @@ public class Contacts {
     
     public Contacts (){};
     
-    public Contacts (){
+    public Contacts (int id, String fullName, String phoneNumber, String emailAddress, String idNumber, Date dateOfBirth, String gender, String county, String organizationName){
+        this.id = id;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
+        this.idNumber = idNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.county = county;
+        this.organizationName = organizationName;
     
-    };
+    }
+    
+    public int getId(){
+    return id;
+    }
+    
+    public void setId (int id){
+    this.id = id;
+    }
     
 }
