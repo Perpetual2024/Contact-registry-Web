@@ -32,10 +32,12 @@ public class ContactDao {
             stmt.setString(8, organizationName);
             
             
-            stmt.executeUpdate();
-            System.out.println("Contact information Successfully inserted");
-                    
-        }
+            int inserted = stmt.executeUpdate();
+            if (inserted > 0){
+                System.out.println("Contact information Successfully inserted");
+            }       
+        }catch (SQLException e){
+         System.err.println("Failed to insert contacts info:" + e.getMessage());}
     }
     
     
