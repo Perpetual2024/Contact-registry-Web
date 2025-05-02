@@ -44,31 +44,59 @@ public class ContactDao {
          System.err.println("Failed to insert contacts info:" + e.getMessage());}
     }
     
-    public List<Contacts> getAllContacts() throws SQLException {
-    List<Contacts> contactList = new ArrayList<>();
-    String sql = "SELECT * FROM contacts";
-    
+    public Contacts getContactById(int id) throws SQLException {
+    String sql = "SELECT * FROM contacts WHERE id = ?";
     try (Connection conn = DBUtil.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        while (rs.next()) {
-            Contacts contact = new Contacts();
-            contact.setId(rs.getInt("id"));
-            contact.setFullName(rs.getString("full_name"));
-            contact.setPhoneNumber(rs.getString("phone_number"));
-            contact.setEmailAddress(rs.getString("email_address"));
-            contact.setIdNumber(rs.getString("id_number"));
-            contact.setDateOfBirth(rs.getDate("date_of_birth"));
-            contact.setGender(rs.getString("gender"));
-            contact.setCounty(rs.getString("county"));
-            contact.setOrganizationName(rs.getString("organization_name"));
+        stmt.setInt(1, id);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                Contacts contact = new Contacts();
+                contact.setId(rs.getInt("id"));
+                contact.setFullName(rs.getString("full_name"));
+                contact.setPhoneNumber(rs.getString("phone_number"));
+                contact.setEmailAddress(rs.getString("email_address"));
+                contact.setIdNumber(rs.getString("id_number"));
+                contact.setDateOfBirth(rs.getDate("date_of_birth"));
+                contact.setGender(rs.getString("gender"));
+                contact.setCounty(rs.getString("county"));
+                contact.setOrganizationName(rs.getString("organization_name"));
 
-            contactList.add(contact);
+                return contact;
+            } else {
+                System.out.println("No contact found with ID: " + id);
+                return null;
+            }
         }
     }
+    }
+            
+    public List<Contacts> getAllContacts() throws SQLException {
+        List<Contacts> contactList = new ArrayList<>();
+        String sql = "SELECT * FROM contacts";
 
-    return contactList;
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Contacts contact = new Contacts();
+                contact.setId(rs.getInt("id"));
+                contact.setFullName(rs.getString("full_name"));
+                contact.setPhoneNumber(rs.getString("phone_number"));
+                contact.setEmailAddress(rs.getString("email_address"));
+                contact.setIdNumber(rs.getString("id_number"));
+                contact.setDateOfBirth(rs.getDate("date_of_birth"));
+                contact.setGender(rs.getString("gender"));
+                contact.setCounty(rs.getString("county"));
+                contact.setOrganizationName(rs.getString("organization_name"));
+
+                contactList.add(contact);
+            }
+        }
+
+        return contactList;
 }
      public void updateContact(Contacts contact) throws SQLException {
         String sql = "UPDATE contacts SET full_name=?, phone_number=?, email_address=?, id_number=?, date_of_birth=?, gender=?, county=?, organization_name=? WHERE id=?";
