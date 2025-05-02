@@ -93,6 +93,26 @@ public class ContactDao {
                 System.out.println("No contact found with the given ID.");
             }
         }
+        
+    }
+     public boolean deleteContact(int id) throws SQLException {
+        String sql = "DELETE FROM contacts WHERE id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            int rowsDeleted = stmt.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Contact deleted successfully.");
+                return true;
+            } else {
+                System.out.println("No contact found with the given ID.");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Failed to delete contact: " + e.getMessage());
+            return false;
+        }
     }
 }
     
