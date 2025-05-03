@@ -36,6 +36,22 @@ public class Contacts {
         this.organizationName = organizationName;
     
     }
+    public Contacts(String fullName, String phoneNumber, String emailAddress, String idNumber, String dateOfBirth, String gender, String county, String organizationName) {
+    this.fullName = fullName;
+    this.phoneNumber = phoneNumber;
+    this.emailAddress = emailAddress;
+    this.idNumber = idNumber;
+    this.gender = gender;
+    this.county = county;
+    this.organizationName = organizationName;
+
+    // Convert the date string to java.sql.Date
+    try {
+        this.dateOfBirth = java.sql.Date.valueOf(dateOfBirth); // expects "yyyy-MM-dd"
+    } catch (IllegalArgumentException e) {
+        this.dateOfBirth = null; // or handle it differently
+    }
+    }
     
     public int getId(){
      return id;

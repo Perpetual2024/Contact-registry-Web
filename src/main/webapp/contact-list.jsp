@@ -16,8 +16,8 @@
     </head>
     <body>
         <h1>Available Contacts</h1>
-        <table>
-            <<tr>
+        <table border="1">
+            <tr>
                 <th>Name</th>
                 <th>Phone</th>
                 <th>Email</th>
@@ -42,7 +42,10 @@
                 <td><%= c.getCounty()%></td>
                 <td><%= c.getOrganizationName()%></td>
             </tr>
-                        <% } %>
+            <% 
+             }
+            
+            %>
             
             
         </table>
