@@ -4,10 +4,41 @@
  */
 package com.zuriontech.contact.registry.servlet;
 
+import com.zuriontech.contact.registry.dao.ContactDao;
+import com.zuriontech.contact.registry.model.Contacts;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  *
  * @author perpetual-akinyi
  */
-public class ContactCreateServlet {
+@WebServlet("/create-contact")
+public class ContactCreateServlet extends HttpServlet{
+     private final ContactDao dao = new ContactDao();
+    @Override
+    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    
+    String name = request.getParameter("name");
+    String phone = request.getParameter("phone");
+    String email = request.getParameter("email");
+    String idNumber = request.getParameter("idNumber");
+    String dob = request.getParameter("dob");
+    String gender = request.getParameter("gender");
+    String county = request.getParameter("county");
+    String organizationName = request.getParameter("organizationName");
+    
+    
+    dao.createContact(new Contacts( name, phone, email, idNumber, dob, gender, county, organizationName));
+    
+    response.sendRedirect("contacts");
+    
+    }
     
 }
+

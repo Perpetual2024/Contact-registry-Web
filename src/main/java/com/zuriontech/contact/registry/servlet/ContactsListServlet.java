@@ -36,6 +36,6 @@ public class ContactsListServlet extends HttpServlet{
     throw new ServletException("Cannot retrieve Contacts", e);
     }
    }
-    
+ 
     
 }

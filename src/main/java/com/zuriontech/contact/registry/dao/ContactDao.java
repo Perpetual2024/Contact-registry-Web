@@ -142,6 +142,29 @@ public class ContactDao {
             return false;
         }
     }
+
+    public void createContact(Contacts contact) {
+    String sql = "INSERT INTO contacts (full_name, phone_number, email_address, id_number, date_of_birth, gender, county, organization_name) " +
+                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, contact.getFullName());
+        stmt.setString(2, contact.getPhoneNumber());
+        stmt.setString(3, contact.getEmailAddress());
+        stmt.setString(4, contact.getIdNumber());
+        stmt.setDate(5, new java.sql.Date(contact.getDateOfBirth().getTime()));
+        stmt.setString(6, contact.getGender());
+        stmt.setString(7, contact.getCounty());
+        stmt.setString(8, contact.getOrganizationName());
+
+        stmt.executeUpdate();
+    } catch (SQLException e) {
+       System.err.println("error" + e.getMessage()); 
+    }
+}
+
 }
     
 
