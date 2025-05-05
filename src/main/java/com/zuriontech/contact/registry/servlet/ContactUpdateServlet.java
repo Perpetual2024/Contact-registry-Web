@@ -53,6 +53,14 @@ public class ContactUpdateServlet extends HttpServlet {
             String gender = request.getParameter("gender");
             String county = request.getParameter("county");
             String organizationName = request.getParameter("organizationName");
+            
+            
+            if (!phone.matches("\\d{10}")) {
+            request.setAttribute("error", "Phone number must be exactly 10 digits.");
+            request.getRequestDispatcher("/contact-create.jsp").forward(request, response);
+            return;
+            }
+
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date dateOfBirth = sdf.parse(dob);

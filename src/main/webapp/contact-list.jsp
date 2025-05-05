@@ -43,6 +43,7 @@
                 <td><%= c.getCounty()%></td>
                 <td><%= c.getOrganizationName()%></td>
                 <td><a href="edit-contact?id=<%= c.getId() %>">Edit</a></td>
+                <td><a href="delete-contact?id=<%= c.getId() %>">Delete</a></td>
               
             </tr>
             <% 

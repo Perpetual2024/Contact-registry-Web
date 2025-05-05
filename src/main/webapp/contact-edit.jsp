@@ -19,7 +19,7 @@
     <form action="update-contact" method="post">
         <input type="hidden" name="id" value="<%= contact.getId() %>" />
 
-        Name: <input type="text" name="name" value="<%= contact.getFullName() %>" required /><br />
+        Name: <input type="text" name="name" value="<%= contact.getFullName() %>" pattern="[0-9]{10}" title="Enter a 10-digit number"required /><br />
         Phone: <input type="text" name="phone" value="<%= contact.getPhoneNumber() %>" required /><br />
         Email: <input type="email" name="email" value="<%= contact.getEmailAddress() %>" required /><br />
         ID Number: <input type="text" name="idNumber" value="<%= contact.getIdNumber() %>" required /><br />

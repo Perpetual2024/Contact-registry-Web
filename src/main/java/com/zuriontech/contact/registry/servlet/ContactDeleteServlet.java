@@ -22,16 +22,34 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/delete-contact")
 public class ContactDeleteServlet extends HttpServlet {
     private final ContactDao dao = new ContactDao();
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int contactId = Integer.parseInt(request.getParameter("id"));
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         try {
-            dao.deleteContact(contactId);  // Delete contact from the database
-        } catch (SQLException ex) {
-            Logger.getLogger(ContactDeleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            int contactId = Integer.parseInt(request.getParameter("id"));
+            var contact = dao.getContactById(contactId); // Get contact details
+            request.setAttribute("contact", contact);
+            request.getRequestDispatcher("/contact-delete.jsp").forward(request, response); // Show confirmation page
+        } catch (SQLException | NumberFormatException e) {
+            Logger.getLogger(ContactDeleteServlet.class.getName()).log(Level.SEVERE, null, e);
+            response.sendRedirect("error.jsp");
         }
-        response.sendRedirect("contacts");  // Redirect to the list of contacts
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            int contactId = Integer.parseInt(request.getParameter("id"));
+            dao.deleteContact(contactId);
+            response.sendRedirect("contacts");
+        } catch (SQLException | NumberFormatException e) {
+            Logger.getLogger(ContactDeleteServlet.class.getName()).log(Level.SEVERE, null, e);
+            response.sendRedirect("error.jsp");
+        }
     }
 }
+
 
 
