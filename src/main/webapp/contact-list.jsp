@@ -41,6 +41,9 @@
                 <td><%= c.getGender()%></td>
                 <td><%= c.getCounty()%></td>
                 <td><%= c.getOrganizationName()%></td>
+                <td>
+                    <a href="edit-contact?id=<%= c.getIdNumber() %>">Edit</a>
+                </td>
             </tr>
             <% 
              }
