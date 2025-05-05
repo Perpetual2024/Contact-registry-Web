@@ -64,7 +64,10 @@ The Contact Registry Web App enables users to manage personal and organizational
         Deploy using Apache Tomcat (via NetBeans).
 
         Visit http://localhost:8080/contact-registry/
-      Enpoints
+        
+    Enpoints:
+
+    
       /contacts
        
       /contact-create.jsp
