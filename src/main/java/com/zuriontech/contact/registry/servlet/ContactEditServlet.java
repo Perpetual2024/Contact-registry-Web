@@ -8,6 +8,8 @@ import com.zuriontech.contact.registry.dao.ContactDao;
 import com.zuriontech.contact.registry.model.Contacts;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,6 +34,9 @@ public class ContactEditServlet extends HttpServlet {
             request.setAttribute("contact", contact);
             request.getRequestDispatcher("/contact-edit.jsp").forward(request, response);
         } catch (IOException | NumberFormatException | SQLException | ServletException e) {
+            
+     
+            Logger.getLogger(ContactEditServlet.class.getName()).log(Level.SEVERE, null, e);
             response.sendRedirect("error.jsp");
         }
     }

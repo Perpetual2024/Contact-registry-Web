@@ -1,23 +1,23 @@
-<%-- 
-    Document   : contact-delete
-    Created on : May 4, 2025, 8:59:44 PM
-    Author     : perpetual-akinyi
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.zuriontech.contact.registry.model.Contacts" %>
 <%
-    String contactId = request.getParameter("id");
+    Contacts contact = (Contacts) request.getAttribute("contact");
 %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Confirm Delete</title>
+    <title>Delete Contact</title>
 </head>
 <body>
     <h2>Are you sure you want to delete this contact?</h2>
 
-    <form action="delete-contact" method="post">
-        <input type="hidden" name="id" value="<%= contactId %>" />
+    <ul>
+        <li>Name: <%= contact.getFullName() %></li>
+        <li>Phone: <%= contact.getPhoneNumber() %></li>
+        <li>Email: <%= contact.getEmailAddress() %></li>
+    </ul>
+
+    <form method="post" action="delete-contact">
+        <input type="hidden" name="id" value="<%= contact.getId() %>">
         <button type="submit">Yes, Delete</button>
         <a href="contacts">Cancel</a>
     </form>
