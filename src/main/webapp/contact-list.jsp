@@ -26,6 +26,7 @@
                 <th>Gender</th>
                 <th>County</th>
                 <th>Organization</th>
+                <th>Action<th/>
             </tr>
             <%
                 List<Contacts> contacts = (List<Contacts>) request.getAttribute("contacts");
