@@ -15,9 +15,9 @@
         <h1>Create your contact</h1>
          <form action="create-contact" method="post">
                     Name: <input type="text" name="name"><br>
-                    Phone: <input type="text" name="phone"><br>
+                    Phone: <input type="number" name="phone"pattern="[0-9]{10}" title="Enter a 10-digit phone number"><br>
                     Email: <input type="email" name="email"><br>
-                    ID Number: <input type="text" name="idNumber"><br>
+                    ID Number: <input type="number" name="idNumber"pattern="[0-9]+" title="Numbers only"><br>
                     Date of Birth: <input type="date" name="dob"><br>
                     Gender: <input type="text" name="gender"><br>
                     County: <input type="text" name="county"><br>
