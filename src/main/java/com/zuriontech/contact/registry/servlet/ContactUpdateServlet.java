@@ -60,6 +60,17 @@ public class ContactUpdateServlet extends HttpServlet {
             request.getRequestDispatcher("/contact-create.jsp").forward(request, response);
             return;
             }
+            
+            if (!idNumber.matches("\\d+")) {
+            request.setAttribute("error", "ID number must contain only digits.");
+            request.getRequestDispatcher("/contact-create.jsp").forward(request, response);
+            return;
+            }
+             if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            request.setAttribute("error", "Invalid email format.");
+            request.getRequestDispatcher("/contact-create.jsp").forward(request, response);
+            return;
+            }
 
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

@@ -33,6 +33,25 @@ public class ContactCreateServlet extends HttpServlet{
     String county = request.getParameter("county");
     String organizationName = request.getParameter("organizationName");
     
+     if (!phone.matches("\\d{10}")) {
+            request.setAttribute("error", "Phone number must be exactly 10 digits.");
+            request.getRequestDispatcher("/contact-create.jsp").forward(request, response);
+            return;
+        }
+
+        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            request.setAttribute("error", "Invalid email format.");
+            request.getRequestDispatcher("/contact-create.jsp").forward(request, response);
+            return;
+        }
+
+        if (!idNumber.matches("\\d+")) {
+            request.setAttribute("error", "ID number must contain only digits.");
+            request.getRequestDispatcher("/contact-create.jsp").forward(request, response);
+            return;
+        }
+    
+    
     
     dao.createContact(new Contacts( name, phone, email, idNumber, dob, gender, county, organizationName));
     
