@@ -22,7 +22,7 @@
         Name: <input type="text" name="name" value="<%= contact.getFullName() %>" required /><br />
         Phone: <input type="text" name="phone" value="<%= contact.getPhoneNumber() %>" pattern="[0-9]{10}" title="Enter a 10-digit number"required /><br />
         Email: <input type="email" name="email" value="<%= contact.getEmailAddress() %>" required /><br />
-        ID Number: <input type="text" name="idNumber" value="<%= contact.getIdNumber() %>" pattern="\\d+" title="Numbers only"required /><br />
+        ID Number: <input type="text" name="idNumber" value="<%= contact.getIdNumber() %>" pattern="[0-9]+" title="Numbers only"required /><br />
         DOB: <input type="date" name="dob" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(contact.getDateOfBirth()) %>" required /><br />
         Gender: <input type="text" name="gender" value="<%= contact.getGender() %>" required /><br />
         County: <input type="text" name="county" value="<%= contact.getCounty() %>" required /><br />
