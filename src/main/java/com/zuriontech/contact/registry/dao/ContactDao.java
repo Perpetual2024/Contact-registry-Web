@@ -71,6 +71,38 @@ public class ContactDao {
         }
     }
     }
+    
+    public List<Contacts> getContactsByCounty(String county) throws SQLException {
+    List<Contacts> contactList = new ArrayList<>();
+    String sql = "SELECT * FROM contacts WHERE county = ?";
+
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, county);
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Contacts contact = new Contacts();
+                contact.setId(rs.getInt("id"));
+                contact.setFullName(rs.getString("full_name"));
+                contact.setPhoneNumber(rs.getString("phone_number"));
+                contact.setEmailAddress(rs.getString("email_address"));
+                contact.setIdNumber(rs.getString("id_number"));
+                contact.setDateOfBirth(rs.getDate("date_of_birth"));
+                contact.setGender(rs.getString("gender"));
+                contact.setCounty(rs.getString("county"));
+                contact.setOrganizationName(rs.getString("organization_name"));
+
+                contactList.add(contact);
+            }
+        }
+    }
+
+    return contactList;
+}
+
+    
+    
             
     public List<Contacts> getAllContacts() throws SQLException {
         List<Contacts> contactList = new ArrayList<>();
@@ -164,6 +196,10 @@ public class ContactDao {
        System.err.println("error" + e.getMessage()); 
     }
 }
+
+    public List<Contacts> getContactsByCounty(String county) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }
     
