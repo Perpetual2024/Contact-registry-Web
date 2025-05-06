@@ -4,7 +4,7 @@
  */
 package com.zuriontech.contact.registry.servlet;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.zuriontech.contact.registry.dao.ContactDao;
 import com.zuriontech.contact.registry.model.Contacts;
 
@@ -12,7 +12,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,7 +19,6 @@ import java.util.List;
 public class ContactsByCountyServlet extends HttpServlet {
 
     private final ContactDao dao = new ContactDao();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,13 +36,18 @@ public class ContactsByCountyServlet extends HttpServlet {
             response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
+            
+            Gson gson = new Gson();
+            String json = gson.toJson(contacts);
+            
+            response.getWriter().write(json);
 
-            ObjectMapper mapper = new ObjectMapper();
-            String json = mapper.writeValueAsString(contacts);
-
-            PrintWriter out = response.getWriter();
-            out.print(json);
-            out.flush();
+           // ObjectMapper mapper = new ObjectMapper();
+           // String json = mapper.writeValueAsString(contacts);
+//
+//            PrintWriter out = response.getWriter();
+//            out.print(json);
+//            out.flush();
 
         } catch (SQLException e) {
             throw new ServletException("Failed to retrieve contacts by county", e);

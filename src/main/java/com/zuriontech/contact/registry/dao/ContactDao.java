@@ -72,6 +72,12 @@ public class ContactDao {
     }
     }
     
+    /**
+     *
+     * @param county
+     * @return
+     * @throws SQLException
+     */
     public List<Contacts> getContactsByCounty(String county) throws SQLException {
     List<Contacts> contactList = new ArrayList<>();
     String sql = "SELECT * FROM contacts WHERE county = ?";
@@ -195,13 +201,10 @@ public class ContactDao {
     } catch (SQLException e) {
        System.err.println("error" + e.getMessage()); 
     }
-}
-
-    public List<Contacts> getContactsByCounty(String county) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
 }
+
+
     
 
 
