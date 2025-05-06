@@ -125,6 +125,10 @@ public class Contacts {
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
     }
+
+    public Object getDobString() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
     

@@ -6,6 +6,7 @@ package com.zuriontech.contact.registry.dao;
 
 import com.zuriontech.contact.registry.model.Contacts;
 import com.zuriontech.contact.registry.util.DBUtil;
+import static com.zuriontech.contact.registry.util.DBUtil.getConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -106,6 +107,29 @@ public class ContactDao {
 
     return contactList;
 }
+    public Contacts getContactByPhoneNumber(String phoneNumber) throws SQLException {
+    String query = "SELECT * FROM contacts WHERE phone_number = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, phoneNumber);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return new Contacts(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getString("phone_number"),
+                rs.getString("email_address"),
+                rs.getString("id_number"),
+                rs.getDate("date_of_birth"),
+                rs.getString("gender"),
+                rs.getString("county"),
+                rs.getString("organization_name")
+            );
+        }
+    }
+    return null;
+}
+
 
     
     
