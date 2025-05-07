@@ -1,63 +1,74 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.zuriontech.contact.registry.servlet;
 
+import com.google.gson.Gson;
 import com.zuriontech.contact.registry.dao.ContactDao;
 import com.zuriontech.contact.registry.model.Contacts;
-import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
+import java.io.BufferedReader;
+import java.io.IOException;
 
-/**
- *
- * @author perpetual-akinyi
- */
 @WebServlet("/create-contact")
-public class ContactCreateServlet extends HttpServlet{
-     private final ContactDao dao = new ContactDao();
+public class ContactCreateServlet extends HttpServlet {
+
+    private final ContactDao dao = new ContactDao();
+    private final Gson gson = new Gson();
+
     @Override
-    
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
-    String name = request.getParameter("name");
-    String phone = request.getParameter("phone");
-    String email = request.getParameter("email");
-    String idNumber = request.getParameter("idNumber");
-    String dob = request.getParameter("dob");
-    String gender = request.getParameter("gender");
-    String county = request.getParameter("county");
-    String organizationName = request.getParameter("organizationName");
-    
-     if (!phone.matches("\\d{10}")) {
-            request.setAttribute("error", "Phone number must be exactly 10 digits.");
-            request.getRequestDispatcher("/contact-create.jsp").forward(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Enable CORS
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        response.setHeader("Access-Control-Allow-Methods", "POST");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+        // Parse JSON request body
+        StringBuilder jsonBuilder = new StringBuilder();
+        try (BufferedReader reader = request.getReader()) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonBuilder.append(line);
+            }
+        }
+
+        Contacts contact = gson.fromJson(jsonBuilder.toString(), Contacts.class);
+
+        // Validate input (basic examples)
+        if (!contact.getPhoneNumber().matches("\\d{10}")) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\": \"Phone number must be exactly 10 digits.\"}");
             return;
         }
 
-        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            request.setAttribute("error", "Invalid email format.");
-            request.getRequestDispatcher("/contact-create.jsp").forward(request, response);
+        if (!contact.getEmailAddress().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\": \"Invalid email format.\"}");
             return;
         }
 
-        if (!idNumber.matches("\\d+")) {
-            request.setAttribute("error", "ID number must contain only digits.");
-            request.getRequestDispatcher("/contact-create.jsp").forward(request, response);
+        if (!contact.getIdNumber().matches("\\d+")) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\": \"ID number must contain only digits.\"}");
             return;
         }
-    
-    
-    
-    dao.createContact(new Contacts( name, phone, email, idNumber, dob, gender, county, organizationName));
-    
-    response.sendRedirect("contacts");
-    
+
+        dao.createContact(contact);
+
+        response.setStatus(HttpServletResponse.SC_CREATED);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"message\": \"Contact created successfully.\"}");
     }
-    
-}
 
+    // Handle preflight CORS request (optional but recommended)
+    @Override
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+}
