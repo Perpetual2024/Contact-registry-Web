@@ -93,6 +93,30 @@ src/
     All CRUD operations were verified.
 
     Form validations for phone number and email were added using HTML5 input attributes.
+## 🛠️ Database Setup
+
+To set up the database required for this project, follow these steps:
+📄 1. Ensure MySQL is Installed
+
+Make sure MySQL is installed and running on your machine. You can verify by running:
+
+mysql --version
+
+📂 2. Run the SQL Script
+
+From the terminal, navigate to the folder containing the schema.sql file and run:
+
+mysql -u your_username -p < schema.sql
+
+    Replace your_username with your MySQL 
+
+This will:
+
+    Create the database contact_registry
+
+    Create the contacts table
+
+You can now connect your application to the database using the appropriate JDBC URL (e.g., jdbc:mysql://localhost:3306/contact_registry).
 
 # 📝 AUTHOR
 
