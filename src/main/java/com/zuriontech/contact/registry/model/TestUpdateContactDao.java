@@ -5,7 +5,6 @@
 package com.zuriontech.contact.registry.model;
 
 import com.zuriontech.contact.registry.dao.ContactDao;
-import java.sql.SQLException;
 import java.util.Date;
 
 
@@ -34,8 +33,6 @@ public class TestUpdateContactDao {
             
             
         
-        }catch (SQLException e){
-            System.err.println("SQL Error:" + e.getMessage());
         }catch (Exception e){
             System.err.println(e.getMessage() + "General Error: ");
         }

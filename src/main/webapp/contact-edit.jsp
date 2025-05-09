@@ -16,7 +16,7 @@
 </head>
 <body>
     <h2>Edit Contact</h2>
-    <form action="update-contact" method="post">
+    <form action="edit-contact" method="post">
         <input type="hidden" name="id" value="<%= contact.getId() %>" />
 
         Name: <input type="text" name="name" value="<%= contact.getFullName() %>" required /><br />
